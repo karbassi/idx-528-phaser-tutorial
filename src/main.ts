@@ -3,8 +3,12 @@ import PreloaderScene from './scenes/PreloaderScene'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  scale: {
+    // mode: Phaser.Scale.FIT,
+    width: 800,
+    height: 600,
+    // zoom: 2,
+  },
   scene: [PreloaderScene],
 }
 

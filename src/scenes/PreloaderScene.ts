@@ -1,6 +1,4 @@
 export default class PreloaderScene extends Phaser.Scene {
-  plateforms = this.physics.add.staticGroup()
-
   constructor() {
     super({ key: 'PreloaderScene' })
     console.log('I am inside the PreloaderScene')
@@ -16,10 +14,6 @@ export default class PreloaderScene extends Phaser.Scene {
   create() {
     this.add.image(400, 300, 'sky')
     this.add.image(400, 300, 'star')
-
-    this.plateforms.create()
-    // this.add.image(90, 10, 'star').setOrigin(0, 0)
-    // this.add.image(130, 10, 'star').setOrigin(0, 0)
   }
 
   update(time: number, delta: number) {
