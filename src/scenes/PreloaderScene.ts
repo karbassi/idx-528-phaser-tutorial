@@ -9,6 +9,10 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('ground', './assets/img/platform.png')
     this.load.image('star', './assets/img/star.png')
     this.load.image('bomb', './assets/img/bomb.png')
+    this.load.spritesheet('character', './assets/img/dude.png', {
+      frameWidth: 32,
+      frameHeight: 48,
+    })
   }
 
   create() {
