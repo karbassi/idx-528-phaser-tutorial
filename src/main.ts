@@ -9,6 +9,13 @@ const config: Phaser.Types.Core.GameConfig = {
     height: 600,
     // zoom: 2,
   },
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 300 },
+      debug: true,
+    },
+  },
   scene: [PreloaderScene],
 }
 
