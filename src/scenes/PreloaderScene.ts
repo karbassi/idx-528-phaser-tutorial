@@ -1,9 +1,4 @@
 export default class PreloaderScene extends Phaser.Scene {
-  platforms!: Phaser.Physics.Arcade.StaticGroup
-  stars!: Phaser.Physics.Arcade.Group
-  player!: Phaser.Physics.Arcade.Sprite
-  cursors!: Phaser.Types.Input.Keyboard.CursorKeys
-
   constructor() {
     super({ key: 'PreloaderScene' })
     console.log('I am inside the PreloaderScene')
@@ -21,127 +16,8 @@ export default class PreloaderScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(400, 300, 'sky')
-    // this.add.image(400, 300, 'star')
-
-    this.createPlatforms()
-    this.createStars()
-    this.createPlayer()
-
-    // collisions
-    this.createCollisions()
-
-    // cursors
-    this.cursors = this.input.keyboard.createCursorKeys()
+    this.scene.start('MainScene')
   }
 
-  update() {
-    if (this.cursors.left.isDown) {
-      this.moveLeft()
-    } else if (this.cursors.right.isDown) {
-      this.moveRight()
-    } else {
-      this.moveIdle()
-    }
-
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.moveUp()
-    }
-  }
-
-  // ---
-
-  private createPlatforms() {
-    this.platforms = this.physics.add.staticGroup()
-
-    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()
-
-    this.platforms.create(600, 400, 'ground')
-    this.platforms.create(50, 250, 'ground')
-    this.platforms.create(750, 220, 'ground')
-  }
-
-  private createStars() {
-    this.stars = this.physics.add.group({
-      key: 'star',
-      repeat: 11,
-      setXY: {
-        x: 12,
-        y: 0,
-        stepX: 70,
-      },
-    })
-
-    this.stars.children.iterate(function (star) {
-      star.setBounceY(Phaser.Math.FloatBetween(0.3, 0.5))
-    })
-  }
-
-  private createPlayer() {
-    // Create the player
-    this.player = this.physics.add.sprite(100, 300, 'character')
-
-    // Have it collide with the world (the frame of the game)
-    this.player.setCollideWorldBounds(true)
-
-    // bounce when collide the world
-    this.player.setBounce(0.2)
-
-    this.player.setScale(1)
-
-    // Create animations
-
-    // Player moving left
-    this.anims.create({
-      key: 'player-left',
-      frames: this.anims.generateFrameNumbers('character', {
-        start: 0,
-        end: 3,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.anims.create({
-      key: 'player-right',
-      frames: this.anims.generateFrameNumbers('character', {
-        start: 5,
-        end: 8,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.anims.create({
-      key: 'player-idle',
-      frames: this.anims.generateFrameNumbers('character', {
-        start: 4,
-        end: 4,
-      }),
-    })
-  }
-
-  private moveLeft() {
-    this.player.setVelocityX(-160)
-    this.player.anims.play('player-left', true)
-  }
-
-  private moveRight() {
-    this.player.setVelocityX(160)
-    this.player.anims.play('player-right', true)
-  }
-
-  private moveIdle() {
-    this.player.setVelocityX(0)
-    this.player.anims.play('player-idle', true)
-  }
-
-  private moveUp() {
-    this.player.setVelocityY(-330)
-  }
-
-  private createCollisions() {
-    this.physics.add.collider(this.player, this.platforms)
-    this.physics.add.collider(this.stars, this.platforms)
-  }
+  update() {}
 }
