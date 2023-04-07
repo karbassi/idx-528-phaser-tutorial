@@ -1,5 +1,5 @@
 export default class PreloaderScene extends Phaser.Scene {
-  plateforms!: Phaser.Physics.Arcade.StaticGroup
+  platforms!: Phaser.Physics.Arcade.StaticGroup
   stars!: Phaser.Physics.Arcade.Group
   player!: Phaser.Physics.Arcade.Sprite
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -24,7 +24,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.add.image(400, 300, 'sky')
     // this.add.image(400, 300, 'star')
 
-    this.createPlateforms()
+    this.createPlatforms()
     this.createStars()
     this.createPlayer()
 
@@ -51,14 +51,14 @@ export default class PreloaderScene extends Phaser.Scene {
 
   // ---
 
-  private createPlateforms() {
-    this.plateforms = this.physics.add.staticGroup()
+  private createPlatforms() {
+    this.platforms = this.physics.add.staticGroup()
 
-    this.plateforms.create(400, 568, 'ground').setScale(2).refreshBody()
+    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody()
 
-    this.plateforms.create(600, 400, 'ground')
-    this.plateforms.create(50, 250, 'ground')
-    this.plateforms.create(750, 220, 'ground')
+    this.platforms.create(600, 400, 'ground')
+    this.platforms.create(50, 250, 'ground')
+    this.platforms.create(750, 220, 'ground')
   }
 
   private createStars() {
@@ -70,6 +70,10 @@ export default class PreloaderScene extends Phaser.Scene {
         y: 0,
         stepX: 70,
       },
+    })
+
+    this.stars.children.iterate(function (star) {
+      star.setBounceY(Phaser.Math.FloatBetween(0.3, 0.5))
     })
   }
 
@@ -137,7 +141,7 @@ export default class PreloaderScene extends Phaser.Scene {
   }
 
   private createCollisions() {
-    this.physics.add.collider(this.player, this.plateforms)
-    this.physics.add.collider(this.stars, this.plateforms)
+    this.physics.add.collider(this.player, this.platforms)
+    this.physics.add.collider(this.stars, this.platforms)
   }
 }
