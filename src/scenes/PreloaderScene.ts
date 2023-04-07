@@ -26,9 +26,11 @@ export default class PreloaderScene extends Phaser.Scene {
     this.createPlayer()
   }
 
-  update(time: number, delta: number) {
+  update() {
     // console.log('I am the update function inside PreloaderScene')
     // console.log(time, delta)
+
+    this.player.anims.play('player-left', true)
   }
 
   // ---
@@ -53,6 +55,8 @@ export default class PreloaderScene extends Phaser.Scene {
     // bounce when collide the world
     this.player.setBounce(0.2)
 
+    // this.player.setScale(3)
+
     // Create animations
     this.anims.create({
       key: 'player-left',
@@ -60,6 +64,8 @@ export default class PreloaderScene extends Phaser.Scene {
         start: 0,
         end: 3,
       }),
+      frameRate: 10,
+      repeat: -1,
     })
   }
 }
