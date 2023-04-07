@@ -1,5 +1,6 @@
 export default class PreloaderScene extends Phaser.Scene {
   plateforms!: Phaser.Physics.Arcade.StaticGroup
+  stars!: Phaser.Physics.Arcade.Group
   player!: Phaser.Physics.Arcade.Sprite
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
 
@@ -21,13 +22,14 @@ export default class PreloaderScene extends Phaser.Scene {
 
   create() {
     this.add.image(400, 300, 'sky')
-    this.add.image(400, 300, 'star')
+    // this.add.image(400, 300, 'star')
 
     this.createPlateforms()
+    this.createStars()
     this.createPlayer()
 
     // collisions
-    this.physics.add.collider(this.player, this.plateforms)
+    this.createCollisions()
 
     // cursors
     this.cursors = this.input.keyboard.createCursorKeys()
@@ -57,6 +59,18 @@ export default class PreloaderScene extends Phaser.Scene {
     this.plateforms.create(600, 400, 'ground')
     this.plateforms.create(50, 250, 'ground')
     this.plateforms.create(750, 220, 'ground')
+  }
+
+  private createStars() {
+    this.stars = this.physics.add.group({
+      key: 'star',
+      repeat: 11,
+      setXY: {
+        x: 12,
+        y: 0,
+        stepX: 70,
+      },
+    })
   }
 
   private createPlayer() {
@@ -120,5 +134,10 @@ export default class PreloaderScene extends Phaser.Scene {
 
   private moveUp() {
     this.player.setVelocityY(-330)
+  }
+
+  private createCollisions() {
+    this.physics.add.collider(this.player, this.plateforms)
+    this.physics.add.collider(this.stars, this.plateforms)
   }
 }
