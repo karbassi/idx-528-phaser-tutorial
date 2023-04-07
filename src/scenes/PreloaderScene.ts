@@ -1,6 +1,7 @@
 export default class PreloaderScene extends Phaser.Scene {
   plateforms!: Phaser.Physics.Arcade.StaticGroup
   player!: Phaser.Physics.Arcade.Sprite
+  cursors!: Phaser.Types.Input.Keyboard.CursorKeys
 
   constructor() {
     super({ key: 'PreloaderScene' })
@@ -24,13 +25,26 @@ export default class PreloaderScene extends Phaser.Scene {
 
     this.createPlateforms()
     this.createPlayer()
+
+    // collisions
+    this.physics.add.collider(this.player, this.plateforms)
+
+    // cursors
+    this.cursors = this.input.keyboard.createCursorKeys()
   }
 
   update() {
-    // console.log('I am the update function inside PreloaderScene')
-    // console.log(time, delta)
+    if (this.cursors.left.isDown) {
+      this.moveLeft()
+    } else if (this.cursors.right.isDown) {
+      this.moveRight()
+    } else {
+      this.moveIdle()
+    }
 
-    this.player.anims.play('player-left', true)
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      this.moveUp()
+    }
   }
 
   // ---
@@ -47,7 +61,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
   private createPlayer() {
     // Create the player
-    this.player = this.physics.add.sprite(100, 100, 'character')
+    this.player = this.physics.add.sprite(100, 300, 'character')
 
     // Have it collide with the world (the frame of the game)
     this.player.setCollideWorldBounds(true)
@@ -55,9 +69,11 @@ export default class PreloaderScene extends Phaser.Scene {
     // bounce when collide the world
     this.player.setBounce(0.2)
 
-    // this.player.setScale(3)
+    this.player.setScale(1)
 
     // Create animations
+
+    // Player moving left
     this.anims.create({
       key: 'player-left',
       frames: this.anims.generateFrameNumbers('character', {
@@ -67,5 +83,42 @@ export default class PreloaderScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     })
+
+    this.anims.create({
+      key: 'player-right',
+      frames: this.anims.generateFrameNumbers('character', {
+        start: 5,
+        end: 8,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'player-idle',
+      frames: this.anims.generateFrameNumbers('character', {
+        start: 4,
+        end: 4,
+      }),
+    })
+  }
+
+  private moveLeft() {
+    this.player.setVelocityX(-160)
+    this.player.anims.play('player-left', true)
+  }
+
+  private moveRight() {
+    this.player.setVelocityX(160)
+    this.player.anims.play('player-right', true)
+  }
+
+  private moveIdle() {
+    this.player.setVelocityX(0)
+    this.player.anims.play('player-idle', true)
+  }
+
+  private moveUp() {
+    this.player.setVelocityY(-330)
   }
 }
