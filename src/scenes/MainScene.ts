@@ -12,14 +12,12 @@ export default class MainScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'MainScene' })
-    console.log('I am inside the MainScene')
   }
 
   preload() {}
 
   create() {
     this.add.image(400, 300, 'sky')
-    // this.add.image(400, 300, 'star')
 
     this.createPlatforms()
     this.createStars()
@@ -32,8 +30,6 @@ export default class MainScene extends Phaser.Scene {
 
     // cursors
     this.cursors = this.input.keyboard.createCursorKeys()
-
-    console.log(`Score: ${this.score}`)
   }
 
   update() {
@@ -203,7 +199,6 @@ export default class MainScene extends Phaser.Scene {
     // Check if we've collected all the stars. If so, renable the stars, add some bombs
 
     if (this.stars.countActive(true) === 0) {
-      this.stars.
       this.stars.children.iterate(function (star) {
         star.enableBody(true, star.x, 0, true, true)
       })
